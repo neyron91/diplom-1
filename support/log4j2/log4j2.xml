@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+   <Appenders>
+      <RollingRandomAccessFile name="app" fileName="${web:rootDir}/log/app.log" filePattern="${web:rootDir}/log/archive/$${date:yyyy-MM-dd}/app_%d{yyyy-MM-dd}_%i.log.gz">
+         <PatternLayout>
+            <Pattern>%d{HH:mm:ss.SSS}: [%20.20c{1}] [%-20.20t] %-5p - %m%n</Pattern>
+         </PatternLayout>
+         <Policies>
+            <TimeBasedTriggeringPolicy modulate="true"/>
+            <SizeBasedTriggeringPolicy size="1 MB"/>
+         </Policies>
+         <DefaultRolloverStrategy max="50" compressionLevel="9"/>
+      </RollingRandomAccessFile>
+      
+      <RollingRandomAccessFile name="kernel" fileName="${web:rootDir}/log/kernel.log" filePattern="${web:rootDir}/log/archive/$${date:yyyy-MM-dd}/kernel_%d{yyyy-MM-dd}_%i.log.gz">
+         <PatternLayout>
+            <Pattern>%d{HH:mm:ss.SSS}: [%20.20c{1}] [%-20.20t] %-5p - %m%n</Pattern>
+         </PatternLayout>
+         <Policies>
+            <TimeBasedTriggeringPolicy modulate="true"/>
+            <SizeBasedTriggeringPolicy size="1 MB"/>
+         </Policies>
+         <DefaultRolloverStrategy max="50" compressionLevel="9"/>
+      </RollingRandomAccessFile>
+      
+      <RollingRandomAccessFile name="web" fileName="${web:rootDir}/log/web.log" filePattern="${web:rootDir}/log/archive/$${date:yyyy-MM-dd}/web_%d{yyyy-MM-dd}_%i.log.gz">
+         <PatternLayout>
+            <Pattern>%d{HH:mm:ss.SSS}: [%20.20c{1}] [%-20.20t] %-5p - %m%n</Pattern>
+         </PatternLayout>
+         <Policies>
+            <TimeBasedTriggeringPolicy modulate="true"/>
+            <SizeBasedTriggeringPolicy size="1 MB"/>
+         </Policies>
+         <DefaultRolloverStrategy max="50" compressionLevel="9"/>
+      </RollingRandomAccessFile>
+      
+      <RollingRandomAccessFile name="error" fileName="${web:rootDir}/log/error.log" filePattern="${web:rootDir}/log/archive/$${date:yyyy-MM-dd}/error_%d{yyyy-MM-dd}_%i.log.gz">
+         <PatternLayout>
+            <Pattern>%d{dd.MM.yyyy HH:mm:ss.SSS}: [%l] [%-25.25t] %-5p - %m%n</Pattern>
+         </PatternLayout>
+         <Policies>
+            <TimeBasedTriggeringPolicy modulate="true"/>
+         </Policies>
+         <DefaultRolloverStrategy compressionLevel="9"/>
+      </RollingRandomAccessFile>
+   </Appenders>
+   
+   <Loggers>
+      <Logger name="app" level="debug">
+         <AppenderRef ref="app"/>
+      </Logger>
+      
+      <Logger name="kernel" level="trace">
+         <AppenderRef ref="kernel"/>
+      </Logger>
+      
+      <Logger name="web" level="trace">
+         <AppenderRef ref="web"/>
+      </Logger>
+      
+      <Root level="debug">
+         <AppenderRef ref="error" level="ERROR"/>
+      </Root>
+   </Loggers>
+</Configuration>
