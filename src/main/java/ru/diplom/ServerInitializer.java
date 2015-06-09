@@ -6,6 +6,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.diplom.entity.User;
 
 /**
  * Запуск приложения
@@ -24,6 +25,10 @@ public class ServerInitializer implements ServletContextListener {
 
       Main main = new Main();
       context.setAttribute(Main.class.getName(), main);
+      
+      main.getData().getListUser().put(0, new User(0, "test", "test", false));
+      main.getData().getListUser().put(1, new User(1, "admin", "admin", true));
+      
       log.trace("Иницализация приложения завершена");
    }
 

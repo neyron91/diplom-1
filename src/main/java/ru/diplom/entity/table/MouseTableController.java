@@ -9,12 +9,12 @@ import ru.diplom.entity.Mouse;
  *
  * @author User
  */
-public class MouseTable extends Table {
+public class MouseTableController extends TableController {
 
    public static final String COLUMN_NAME = "Наименование";
    public static final String COLUMN_MANUFACTURER = "Производитель";
 
-   public MouseTable(Main data) {
+   public MouseTableController(Main data) {
       super(data);
    }
 

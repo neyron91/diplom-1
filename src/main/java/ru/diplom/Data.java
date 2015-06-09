@@ -2,6 +2,7 @@ package ru.diplom;
 
 import java.util.concurrent.ConcurrentHashMap;
 import ru.diplom.entity.Mouse;
+import ru.diplom.entity.User;
 
 /**
  *
@@ -10,6 +11,7 @@ import ru.diplom.entity.Mouse;
 public class Data {
 
    private ConcurrentHashMap<Integer, Mouse> listMouse = new ConcurrentHashMap();
+   private ConcurrentHashMap<Integer, User> listUser = new ConcurrentHashMap();
 
    public ConcurrentHashMap<Integer, Mouse> getListMouse() {
       return listMouse;
@@ -17,6 +19,10 @@ public class Data {
 
    public void setListMouse(ConcurrentHashMap<Integer, Mouse> listMouse) {
       this.listMouse = listMouse;
+   }
+
+   public ConcurrentHashMap<Integer, User> getListUser() {
+      return listUser;
    }
 
 }

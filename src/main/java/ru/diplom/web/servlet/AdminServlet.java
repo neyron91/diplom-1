@@ -6,7 +6,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.logging.Level;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,24 +22,19 @@ import ru.diplom.entity.table.TableController;
  *
  *
  */
-@WebServlet(urlPatterns = {"/tables"})
-public class ChangeDateServlet extends HttpServlet {
-
-   public static final int TABLE_MOUSE = 1;
+@WebServlet(urlPatterns = {"/admin"})
+public class AdminServlet extends HttpServlet {
 
    public static final int OPERATION_VIEW = 1;
    public static final int OPERATION_ADD = 2;
    public static final int OPERATION_REMOVE = 3;
 
-   public static final Logger logS = LogManager.getLogger(ChangeDateServlet.class.getName());
+   public static final Logger logS = LogManager.getLogger(AdminServlet.class.getName());
 
    @Override
    protected void doGet(HttpServletRequest request, HttpServletResponse response)
            throws ServletException, IOException {
-      HashMap<Class, String> list = new HashMap();
-//      list.put(MouseTable.class, "Мышки");
-      request.setAttribute("tables", list);
-      outputPage("tables.jsp", request, response);
+      outputPage("admin.jsp", request, response);
    }
 
    @Override
@@ -50,44 +44,25 @@ public class ChangeDateServlet extends HttpServlet {
       response.setCharacterEncoding("UTF-8");
       response.setContentType("text/plain; charset=utf-8");
 
-      request.setCharacterEncoding("UTF-8");
-      response.setCharacterEncoding("UTF-8");
-      response.setContentType("text/plain; charset=utf-8");
-
       Main main = (Main) request.getServletContext().getAttribute(Main.class.getName());
-      String typeOperation = request.getParameter("type_operation");
-      String table = request.getParameter("type_table");
-      String html = null;
+      String table = request.getParameter("type_table");             // Класс
+      String typeOperation = request.getParameter("type_operation"); // Метод
+      String html = "Ошибка";
 
-      if (!"null".equalsIgnoreCase(table)) {
+      if (table != null) {
          try {
             Class<? extends TableController> cls = (Class<? extends TableController>) Class.forName(table);
             Constructor<? extends TableController> constructor = cls.getConstructor(Main.class);
             TableController tableInst = constructor.newInstance(main);
             Method method = tableInst.getClass().getMethod(typeOperation, HttpServletRequest.class);
-            html = (String) method.invoke(tableInst, response);
-         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ChangeDateServlet.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (NoSuchMethodException ex) {
-            java.util.logging.Logger.getLogger(ChangeDateServlet.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (SecurityException ex) {
-            java.util.logging.Logger.getLogger(ChangeDateServlet.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ChangeDateServlet.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ChangeDateServlet.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (IllegalArgumentException ex) {
-            java.util.logging.Logger.getLogger(ChangeDateServlet.class.getName()).log(Level.SEVERE, null, ex);
-         } catch (InvocationTargetException ex) {
-            java.util.logging.Logger.getLogger(ChangeDateServlet.class.getName()).log(Level.SEVERE, null, ex);
+            html = (String) method.invoke(tableInst, request);
+         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            logS.error("Ошибка во время работы с классом", ex);
          }
-      } else {
-         html = "";
       }
 
       PrintWriter out = response.getWriter();
       out.println(html);
-
    }
 
    public void outputPage(String namePage, HttpServletRequest aRequest, HttpServletResponse aResponse) throws IOException, ServletException {

@@ -7,19 +7,29 @@ import ru.diplom.Main;
  *
  * @author User
  */
-public abstract class Table {
+public abstract class TableController {
 
    protected Main main;
 
-   public Table(Main main) {
+   public TableController(Main main) {
       this.main = main;
    }
 
    public abstract String view(HttpServletRequest request);
-   
+
    public abstract String update(HttpServletRequest request);
 
    public abstract String add(HttpServletRequest request);
 
    public abstract String remove(HttpServletRequest request);
+
+   protected int readInt(String param) {
+      int value = -1;
+      try {
+         value = Integer.parseInt(param);
+      } catch (Exception e) {
+
+      }
+      return value;
+   }
 }
