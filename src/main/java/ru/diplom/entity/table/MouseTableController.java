@@ -76,7 +76,7 @@ public class MouseTableController extends TableController {
               .append("<thead>")
               .append("<tr>")
               .append("<th>").append(Column.NAME.getName()).append("</th>")
-              .append("<th>").append(Column.NAME.getName()).append("</th>")
+              .append("<th>").append(Column.MANUFACTURER.getName()).append("</th>")
               .append("<th></th>")
               .append("</tr>")
               .append("</thead>")
