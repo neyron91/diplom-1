@@ -17,6 +17,8 @@ public abstract class TableController {
 
    public abstract String view(HttpServletRequest request);
 
+   public abstract String updateViewControl(HttpServletRequest request);
+
    public abstract String update(HttpServletRequest request);
 
    public abstract String add(HttpServletRequest request);
@@ -32,4 +34,9 @@ public abstract class TableController {
       }
       return value;
    }
+
+   public String JQuery(String key, String id) {
+      return key + ":$('#" + id + "').val()";
+   }
+
 }

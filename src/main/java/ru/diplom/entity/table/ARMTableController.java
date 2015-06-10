@@ -4,18 +4,18 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.HttpServletRequest;
 import ru.diplom.Main;
-import ru.diplom.entity.Mouse;
+import ru.diplom.entity.ARM;
 
 /**
  *
  * @author User
  */
-public class MouseTableController extends TableController {
+public class ARMTableController extends TableController {
 
    private enum Column {
 
-      NAME("Наименование", "nam"),
-      MANUFACTURER("Производитель", "manuf");
+      ID_PO("ID ПО", "id_po"),
+      ID_PC("ID ПК", "id_pc");
 
       private final String name;
       private final String alias;
@@ -35,62 +35,62 @@ public class MouseTableController extends TableController {
    }
 
    public static final String PATH = "/tables";
-   public static final String ID_TEMPL = "mouse_";
-   public static final String CLASS = MouseTableController.class.getName();
+   public static final String ID_TEMPL = "arm_";
+   public static final String CLASS = ARMTableController.class.getName();
 
-   public MouseTableController(Main data) {
-      super(data);
+   public ARMTableController(Main main) {
+      super(main);
    }
 
-   private ConcurrentHashMap<Integer, Mouse> getData() {
-      return main.getData().getListMouse();
+   private ConcurrentHashMap<Integer, ARM> getData() {
+      return main.getData().getListARM();
    }
 
    @Override
    public String view(HttpServletRequest request) {
       StringBuilder newRow = new StringBuilder();
 
-      String idName = ID_TEMPL + Column.NAME.getAlias();
-      String idManuf = ID_TEMPL + Column.MANUFACTURER.getAlias();
+      String idPO = ID_TEMPL + Column.ID_PO.getAlias();
+      String idPC = ID_TEMPL + Column.ID_PC.getAlias();
 
-      String data = Column.NAME.getAlias() + ":$('#" + idName + "').val()," + Column.MANUFACTURER.getAlias() + ":$('#" + idManuf + "').val()";
+      String data = Column.ID_PO.getAlias() + ":$('#" + idPO + "').val()," + Column.ID_PC.getAlias() + ":$('#" + idPC + "').val()";
       String click = "sendCmd('" + CLASS + "','add', '" + PATH + "', {" + data + "});";
 
       newRow.append("<tr>")
-              .append("<td style='padding-top: 20px;'><input id='").append(idName).append("' style='width: 100%' type='text'></td>")
-              .append("<td style='padding-top: 20px;'><input id='").append(idManuf).append("' style='width: 100%' type='text'></td>")
+              .append("<td style='padding-top: 20px;'><input id='").append(idPO).append("' style='width: 100%' type='text'></td>")
+              .append("<td style='padding-top: 20px;'><input id='").append(idPC).append("' style='width: 100%' type='text'></td>")
               .append("<td style='padding-top: 20px;'><button onclick=\"").append(click).append("\">Добавить</button></td>")
               .append("</tr>");
 
       StringBuilder html = new StringBuilder();
-      ConcurrentHashMap<Integer, Mouse> listMouse = getData();
+      ConcurrentHashMap<Integer, ARM> listARM = getData();
       html.append("<h2 style='text-align: center;'>Мышки</h2>")
               .append("<br>")
               .append("<div class='tables-content'>");
 
-      if (listMouse.isEmpty()) {
+      if (listARM.isEmpty()) {
          html.append("<center><font style='font-size: 16pt;margin: auto;'>Нет данных</font></center><br>");
       }
 
       html.append("<table id='data' style='width: 700px; margin: auto;'>")
               .append("<thead>")
               .append("<tr>")
-              .append("<th>").append(Column.NAME.getName()).append("</th>")
-              .append("<th>").append(Column.NAME.getName()).append("</th>")
+              .append("<th>").append(Column.ID_PO.getName()).append("</th>")
+              .append("<th>").append(Column.ID_PC.getName()).append("</th>")
               .append("<th></th>")
               .append("</tr>")
               .append("</thead>")
               .append("<tbody>");
 
-      for (Mouse mouse : listMouse.values()) {
-         String id = ID_TEMPL + mouse.getId();
+      for (ARM arm : listARM.values()) {
+         String id = ID_TEMPL + arm.getIdNum();
 
-         String remove = "onclick=\"sendCmd('" + CLASS + "','remove', '" + PATH + "',{" + "id:" + mouse.getId() + "});\"";
-         String modifi = "onclick=\"sendCmd('" + CLASS + "','updateViewControl', '" + PATH + "',{" + "id:" + mouse.getId() + "},function(html){$('#" + id + "').html(html)});\"";
+         String remove = "onclick=\"sendCmd('" + CLASS + "','remove', '" + PATH + "',{" + "id:" + arm.getIdNum() + "});\"";
+         String modifi = "onclick=\"sendCmd('" + CLASS + "','updateViewControl', '" + PATH + "',{" + "id:" + arm.getIdNum() + "},function(html){$('#" + id + "').html(html)});\"";
 
          html.append("<tr id='").append(id).append("'>")
-                 .append("<td>").append(mouse.getName()).append("</td>")
-                 .append("<td>").append(mouse.getManufacturer()).append("</td>")
+                 .append("<td>").append(arm.getIdSOFT()).append("</td>")
+                 .append("<td>").append(arm.getIdPC()).append("</td>")
                  .append("<td>")
                  .append("<button ").append(modifi).append(">Ред..</button>")
                  .append("<button ").append(remove).append(">Удал..</button>")
@@ -111,19 +111,19 @@ public class MouseTableController extends TableController {
       int id = readInt(request.getParameter("id"));
       StringBuilder newRow = new StringBuilder();
       if (id > -1) {
-         Mouse mouse = getData().get(id);
+         ARM arm = getData().get(id);
 
          String idTmp = ID_TEMPL + id + "_";
 
-         String idName = idTmp + Column.NAME.getAlias();
-         String idManuf = idTmp + Column.MANUFACTURER.getAlias();
+         String idPO = idTmp + Column.ID_PO.getAlias();
+         String idPC = idTmp + Column.ID_PC.getAlias();
 
-         String data = Column.NAME.getAlias() + ":$('#" + idName + "').val()," + Column.MANUFACTURER.getAlias() + ":$('#" + idManuf + "').val(), id:" + mouse.getId();
+         String data = Column.ID_PO.getAlias() + ":$('#" + idPO + "').val()," + Column.ID_PC.getAlias() + ":$('#" + idPC + "').val(), id:" + arm.getIdNum();
          String saveClick = "sendCmd('" + CLASS + "','update', '" + PATH + "', {" + data + "});";
          String cancelClick = "sendCmd('" + CLASS + "','view', '" + PATH + "');";
 
-         newRow.append("<td><input id='").append(idName).append("' style='width: 100%' type='text' value='").append(mouse.getName()).append("'></td>")
-                 .append("<td><input id='").append(idManuf).append("' style='width: 100%' value='").append(mouse.getManufacturer()).append("'></td>")
+         newRow.append("<td><input id='").append(idPO).append("' style='width: 100%' type='text' value='").append(arm.getIdSOFT()).append("'></td>")
+                 .append("<td><input id='").append(idPC).append("' style='width: 100%' value='").append(arm.getIdPC()).append("'></td>")
                  .append("<td><button onclick=\"").append(saveClick).append("\">Сохранить</button><button onclick=\"").append(cancelClick).append("\">Закрыть</button></td>");
       }
       return newRow.toString();
@@ -132,30 +132,30 @@ public class MouseTableController extends TableController {
    @Override
    public String update(HttpServletRequest request) {
       int id = readInt(request.getParameter("id"));
-      String name = request.getParameter(Column.NAME.getAlias());
-      String manuf = request.getParameter(Column.MANUFACTURER.getAlias());
-      Mouse mouse = getData().get(id);
-      if (mouse != null) {
-         mouse.setName(name);
-         mouse.setManufacturer(manuf);
+      String idPO = request.getParameter(Column.ID_PO.getAlias());
+      String idPC = request.getParameter(Column.ID_PC.getAlias());
+      ARM arm = getData().get(id);
+      if (arm != null) {
+         arm.setIdSOFT(Integer.parseInt(idPO));
+         arm.setIdPC(Integer.parseInt(idPC));
       }
       return view(request);
    }
 
    @Override
    public String add(HttpServletRequest request) {
-      String name = request.getParameter(Column.NAME.getAlias());
-      String manuf = request.getParameter(Column.MANUFACTURER.getAlias());
+      String idPO = request.getParameter(Column.ID_PO.getAlias());
+      String idPC = request.getParameter(Column.ID_PC.getAlias());
 
       int maxId = 0;
-      for (Map.Entry<Integer, Mouse> entrySet : getData().entrySet()) {
+      for (Map.Entry<Integer, ARM> entrySet : getData().entrySet()) {
          int id = entrySet.getKey();
          if (id > maxId) {
             maxId = id;
          }
       }
       maxId++;
-      getData().put(maxId, new Mouse(maxId, name, manuf));
+      getData().put(maxId, new ARM(maxId, Integer.parseInt(idPO), Integer.parseInt(idPC)));
       return view(request);
    }
 

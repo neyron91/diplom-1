@@ -7,7 +7,7 @@
    <head>
 
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <title>Учет комплектующих</title>
+      <title>Управление конфигурацией</title>
       <script>
          var PATH_CONTEXT = "<%=request.getContextPath()%>";
       </script>
@@ -18,7 +18,6 @@
       <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery/jquery-2.1.1.min.js"></script>
       <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery/jquery-migrate-1.2.1.min.js"></script>
       <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery/jquery-ui.min.js"></script>
-      <script type="text/javascript" src="<%=request.getContextPath()%>/js/main.js"></script>
    </head>
    <body>
       <br>

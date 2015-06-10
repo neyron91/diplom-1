@@ -1,4 +1,3 @@
-<%@page import="ru.diplom.web.other.TableSelect"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -17,7 +16,7 @@
       <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery/jquery-2.1.1.min.js"></script>
       <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery/jquery-migrate-1.2.1.min.js"></script>
       <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery/jquery-ui.min.js"></script>
-      <script type="text/javascript" src="<%=request.getContextPath()%>/js/tables.js"></script>
+      <script type="text/javascript" src="<%=request.getContextPath()%>/js/general.js"></script>
    </head>
    <body>
       <div class="top-panel">
@@ -25,52 +24,20 @@
       </div>
 
       <div class="right-panel">
-         <font class="custom_link" onclick="">Мышки</font><br>
-         <font class="custom_link">Клавиатуры</font><br>
-         <font class="custom_link">Мониторы</font><br> 
+         <%
+        HashMap<Class, String> list = (HashMap<Class, String>) request.getAttribute("tables");
+        if (list != null) {
+           for (Map.Entry<Class, String> entrySet : list.entrySet()) {
+              Class cls = entrySet.getKey();
+              String rep = entrySet.getValue();
+         %>
+         <font id="table-user" class="custom_link" onclick="sendCmd('<%=cls.getName()%>', 'view', '/tables');"><%=rep%></font><br>
+         <% }
+         }%>
       </div>
 
-      <div class="content-panel">
-         <h2 style="text-align: center;">Мышки</h2>
-         <br>
-         <div id="tables-content">
-            <!--         <div style="text-align: center;">
-                        <font style="font-size: 16pt">Нет данных.</font>
-                        <br>
-                        <a href="#" onClick="">Добавить</a>
-                     </div>-->
-
-            <table style="width: 700px; margin: auto;">
-               <thead>
-                  <tr>
-                     <th>Логин</th>
-                     <th>Пароль</th>
-                     <th>Администратор</th>
-                     <th></th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <td>test</td>
-                     <td>test</td>
-                     <td><input type="checkbox"></td>
-                     <td><button>Ред..</button><button>Удал..</button></td>
-                  </tr>
-                  <tr>
-                     <td>admin</td>
-                     <td>admin</td>
-                     <td><input type="checkbox" checked></td>
-                     <td><button>Ред..</button><button>Удал..</button></td>
-                  </tr>
-                  <tr>
-                     <td style="padding-top: 20px;"><input style="width: 100%" type="text"></td>
-                     <td style="padding-top: 20px;"><input style="width: 100%" type="text"></td>
-                     <td style="padding-top: 20px;"><input type="checkbox"></td>
-                     <td style="padding-top: 20px;"><button>Добавить</button></td>
-                  </tr>
-               </tbody>
-            </table>
-         </div>
+      <div id="content" class="content-panel">
+         Выберите справа поле для дальнейшей работы
       </div>
    </body>
 </html>

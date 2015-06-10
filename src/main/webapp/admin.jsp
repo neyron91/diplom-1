@@ -15,7 +15,6 @@
       <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery/jquery-2.1.1.min.js"></script>
       <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery/jquery-migrate-1.2.1.min.js"></script>
       <script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery/jquery-ui.min.js"></script>
-      <script type="text/javascript" src="<%=request.getContextPath()%>/js/admin.js"></script>
       <script type="text/javascript" src="<%=request.getContextPath()%>/js/general.js"></script>
    </head>
    <body>

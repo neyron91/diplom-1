@@ -25,10 +25,6 @@ import ru.diplom.entity.table.TableController;
 @WebServlet(urlPatterns = {"/admin"})
 public class AdminServlet extends HttpServlet {
 
-   public static final int OPERATION_VIEW = 1;
-   public static final int OPERATION_ADD = 2;
-   public static final int OPERATION_REMOVE = 3;
-
    public static final Logger logS = LogManager.getLogger(AdminServlet.class.getName());
 
    @Override
